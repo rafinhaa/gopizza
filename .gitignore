@@ -56,3 +56,4 @@ dist/
 
 # Firebase config files
 android/app/google-services.json
+ios/GoogleService-Info.plist
