@@ -1,6 +1,7 @@
 import React, { createContext, useContext, ReactNode, useState } from "react";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 
 type AuthProviderProps = {
@@ -18,6 +19,8 @@ type AuthContextData = {
   isLogging: boolean;
   user: User | null;
 };
+
+const USER_COLLECTION = "@gopizza:users";
 
 const AuthContext = createContext({} as AuthContextData);
 
@@ -37,10 +40,15 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
           .collection("users")
           .doc(account.user.uid)
           .get()
-          .then((profile) => {
+          .then(async (profile) => {
             const { name, isAdmin } = profile.data() as User;
             if (profile.exists) {
-              setUser({ id: account.user.uid, name, isAdmin });
+              const userData = { id: account.user.uid, name, isAdmin };
+              await AsyncStorage.setItem(
+                USER_COLLECTION,
+                JSON.stringify(userData)
+              );
+              setUser(userData);
             }
           })
           .catch(() => {
