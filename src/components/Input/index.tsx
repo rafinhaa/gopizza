@@ -7,7 +7,6 @@ type TextProps = TextInputProps & {
   type?: InputProps;
 };
 const Input: React.FC<TextProps> = ({ type = "primary", ...rest }) => {
-  console.log(type);
   return <Container type={type} {...rest}></Container>;
 };
 
