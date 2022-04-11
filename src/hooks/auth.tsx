@@ -23,6 +23,7 @@ type User = {
 type AuthContextData = {
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  forgotPassword: (email: string) => Promise<void>;
   isLogging: boolean;
   user: User | null;
 };
@@ -84,6 +85,29 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     setUser(null);
   };
 
+  const forgotPassword = async (email: string) => {
+    if (!email) {
+      return Alert.alert("Esqueci a senha", "Informe o e-mail");
+    }
+    setIsLogging(true);
+    auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        Alert.alert("Esqueci a senha", "Verifique sua caixa de e-mail");
+      })
+      .catch((error) => {
+        switch (error.code) {
+          case "auth/user-not-found":
+            Alert.alert("Esqueci a senha", "Usuário não encontrado");
+            break;
+          default:
+            Alert.alert("Esqueci a senha", "Erro ao enviar e-mail");
+            break;
+        }
+      });
+    setIsLogging(false);
+  };
+
   const loadUserStorageData = async () => {
     setIsLogging(true);
     const storedUser = await AsyncStorage.getItem(USER_COLLECTION);
@@ -100,7 +124,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ signIn, signOut, isLogging, user }}>
+    <AuthContext.Provider
+      value={{ signIn, signOut, forgotPassword, isLogging, user }}
+    >
       {children}
     </AuthContext.Provider>
   );

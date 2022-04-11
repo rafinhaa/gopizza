@@ -20,10 +20,14 @@ const SignIn: React.FC = () => {
   const behavior = Platform.OS === "ios" ? "padding" : undefined;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signIn, isLogging } = useAuth();
+  const { signIn, forgotPassword, isLogging } = useAuth();
 
   const handleSignIn = () => {
     signIn(email, password);
+  };
+
+  const handleForgotPassword = () => {
+    forgotPassword(email);
   };
 
   return (
@@ -46,7 +50,9 @@ const SignIn: React.FC = () => {
             onChangeText={setPassword}
           />
           <ForgotPasswordButton>
-            <ForgotPasswordLabel>Esqueci minha senha</ForgotPasswordLabel>
+            <ForgotPasswordLabel onPress={handleForgotPassword}>
+              Esqueci minha senha
+            </ForgotPasswordLabel>
           </ForgotPasswordButton>
           <Button
             title="Entrar"
