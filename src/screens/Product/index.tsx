@@ -14,6 +14,7 @@ import {
   Upload,
   PickImageButton,
 } from "./styles";
+import InputPrice from "../../components/InputPrice";
 
 const Product: React.FC = () => {
   const behavior = Platform.OS === "ios" ? "padding" : undefined;
@@ -51,6 +52,9 @@ const Product: React.FC = () => {
           onPress={handlePickerImage}
         />
       </Upload>
+      <InputPrice size="P" />
+      <InputPrice size="M" />
+      <InputPrice size="G" />
     </Container>
   );
 };
