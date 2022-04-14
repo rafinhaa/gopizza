@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Platform, TouchableOpacity, ScrollView, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { ImageInfo } from "expo-image-picker/build/ImagePicker.types";
+import firestore from "@react-native-firebase/firestore";
+import storage from "@react-native-firebase/storage";
 
 import ButtonBack from "../../components/ButtonBack";
 import Photo from "../../components/Photo";
@@ -59,6 +61,29 @@ const Product: React.FC = () => {
     ) {
       return Alert.alert("Preencha todos os campos!");
     }
+
+    setIsLoading(true);
+    const fileName = new Date().getTime();
+    const reference = storage().ref(`pizzas/${fileName}.png`);
+    await reference.putFile(image);
+    const photoURL = await reference.getDownloadURL();
+    firestore()
+      .collection("pizzas")
+      .add({
+        name,
+        name_insensitive: name.toLowerCase().trim(),
+        description,
+        prices_sizes: {
+          priceP,
+          priceM,
+          priceG,
+        },
+        photoURL,
+        photoPath: reference.fullPath,
+      })
+      .then(() => Alert.alert("Pizza cadastrada com sucesso!"))
+      .catch(() => Alert.alert("Erro ao cadastrar pizza!"))
+      .finally(() => setIsLoading(false));
   };
 
   return (
