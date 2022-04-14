@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Platform, TouchableOpacity, ScrollView } from "react-native";
+import { Platform, TouchableOpacity, ScrollView, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { ImageInfo } from "expo-image-picker/build/ImagePicker.types";
 
@@ -48,6 +48,19 @@ const Product: React.FC = () => {
     }
   }
 
+  const handleAdd = async () => {
+    if (
+      !image ||
+      !name.trim() ||
+      !description.trim() ||
+      !priceP ||
+      !priceM ||
+      !priceG
+    ) {
+      return Alert.alert("Preencha todos os campos!");
+    }
+  };
+
   return (
     <Container behavior={behavior}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -90,7 +103,11 @@ const Product: React.FC = () => {
             <InputPrice size="M" onChangeText={setPriceM} value={priceM} />
             <InputPrice size="G" onChangeText={setPriceG} value={priceG} />
           </InputGroup>
-          <Button title="Cadastrar Pizza" isLoading={isLoading} />
+          <Button
+            title="Cadastrar Pizza"
+            isLoading={isLoading}
+            onPress={handleAdd}
+          />
         </Form>
       </ScrollView>
     </Container>
