@@ -26,6 +26,12 @@ import InputPrice from "../../components/InputPrice";
 const Product: React.FC = () => {
   const behavior = Platform.OS === "ios" ? "padding" : undefined;
   const [image, setImage] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [priceP, setPriceP] = useState("");
+  const [priceM, setPriceM] = useState("");
+  const [priceG, setPriceG] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handlePickerImage() {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -63,22 +69,28 @@ const Product: React.FC = () => {
         <Form>
           <InputGroup>
             <Label>Nome</Label>
-            <Input />
+            <Input onChangeText={setName} value={name} />
           </InputGroup>
           <InputGroup>
             <InputGroupHeader>
               <Label>Descrição</Label>
               <MaxCharacters>0 de 60 caracteres</MaxCharacters>
             </InputGroupHeader>
-            <Input multiline maxLength={60} style={{ height: 80 }} />
+            <Input
+              multiline
+              maxLength={60}
+              style={{ height: 80 }}
+              onChangeText={setDescription}
+              value={description}
+            />
           </InputGroup>
           <InputGroup>
             <Label>Tamanhos e preços</Label>
-            <InputPrice size="P" />
-            <InputPrice size="M" />
-            <InputPrice size="G" />
+            <InputPrice size="P" onChangeText={setPriceP} value={priceP} />
+            <InputPrice size="M" onChangeText={setPriceM} value={priceM} />
+            <InputPrice size="G" onChangeText={setPriceG} value={priceG} />
           </InputGroup>
-          <Button title="Cadastrar Pizza" />
+          <Button title="Cadastrar Pizza" isLoading={isLoading} />
         </Form>
       </ScrollView>
     </Container>
