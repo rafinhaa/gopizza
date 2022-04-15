@@ -23,6 +23,7 @@ import {
 
 const Home: React.FC = () => {
   const [pizzas, setPizzas] = useState<ProductProps[]>([]);
+  const [search, setSearch] = useState("");
 
   const fetchPizzas = (value: string) => {
     const formattedValue = value.toLowerCase().trim();
@@ -40,14 +41,23 @@ const Home: React.FC = () => {
           };
         }) as ProductProps[];
         setPizzas(data);
+        console.log(data);
       })
       .catch((error) => console.log(error));
   };
 
+  const handleSearch = () => {
+    fetchPizzas(search);
+  };
+
+  const handleSearchClear = () => {
+    setSearch("");
+    fetchPizzas("");
+  };
+
   useEffect(() => {
     fetchPizzas("");
-  }),
-    [];
+  }, []);
 
   return (
     <Container>
@@ -60,7 +70,12 @@ const Home: React.FC = () => {
           <LogOutIcon />
         </BorderlessButton>
       </Header>
-      <Search onSearch={() => {}} onClear={() => {}} />
+      <Search
+        onChangeText={setSearch}
+        value={search}
+        onSearch={handleSearch}
+        onClear={handleSearchClear}
+      />
       <MenuHeader>
         <Title>Cardápio</Title>
         <MenuItensNumber>10 pizzas</MenuItensNumber>
