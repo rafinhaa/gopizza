@@ -44,3 +44,30 @@ export const LogOutIcon = styled(MaterialIcons).attrs(
     color: COLORS.TITLE,
   })
 )``;
+
+export const MenuHeader = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 25px 24px 0;
+  padding-bottom: 22px;
+  border-bottom-width: 1px;
+  border-bottom-color: ${({ theme: { COLORS } }) => COLORS.SHAPE};
+`;
+
+export const MenuItensNumber = styled.Text`
+  font-size: 14px;
+  ${({ theme: { COLORS, FONTS } }) => css`
+    font-family: ${FONTS.TEXT};
+    color: ${COLORS.SECONDARY_900};
+  `};
+`;
+
+export const Title = styled.Text`
+  font-size: 20px;
+  line-height: 20px;
+  ${({ theme: { COLORS, FONTS } }) => css`
+    font-family: ${FONTS.TITLE};
+    color: ${COLORS.SECONDARY_900};
+  `};
+`;

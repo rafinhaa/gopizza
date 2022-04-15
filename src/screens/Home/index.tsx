@@ -13,6 +13,9 @@ import {
   GreetingEmoji,
   GreetingText,
   LogOutIcon,
+  MenuHeader,
+  MenuItensNumber,
+  Title,
 } from "./styles";
 
 const Home: React.FC = () => {
@@ -28,6 +31,10 @@ const Home: React.FC = () => {
         </BorderlessButton>
       </Header>
       <Search onSearch={() => {}} onClear={() => {}} />
+      <MenuHeader>
+        <Title>Cardápio</Title>
+        <MenuItensNumber>10 pizzas</MenuItensNumber>
+      </MenuHeader>
     </Container>
   );
 };
