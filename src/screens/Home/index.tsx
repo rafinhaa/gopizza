@@ -2,6 +2,8 @@ import React from "react";
 
 import { BorderlessButton } from "react-native-gesture-handler";
 
+import Search from "../../components/Search";
+
 import happyEmoji from "../../assets/happy.png";
 
 import {
@@ -25,6 +27,7 @@ const Home: React.FC = () => {
           <LogOutIcon />
         </BorderlessButton>
       </Header>
+      <Search onSearch={() => {}} onClear={() => {}} />
     </Container>
   );
 };
