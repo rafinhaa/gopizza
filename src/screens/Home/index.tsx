@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { BorderlessButton } from "react-native-gesture-handler";
 import firestore from "@react-native-firebase/firestore";
@@ -18,9 +18,12 @@ import {
   MenuHeader,
   MenuItensNumber,
   Title,
+  PizzasList,
 } from "./styles";
 
 const Home: React.FC = () => {
+  const [pizzas, setPizzas] = useState<ProductProps[]>([]);
+
   const fetchPizzas = (value: string) => {
     const formattedValue = value.toLowerCase().trim();
     firestore()
@@ -36,7 +39,7 @@ const Home: React.FC = () => {
             ...doc.data(),
           };
         }) as ProductProps[];
-        console.log(data);
+        setPizzas(data);
       })
       .catch((error) => console.log(error));
   };
@@ -62,13 +65,11 @@ const Home: React.FC = () => {
         <Title>Cardápio</Title>
         <MenuItensNumber>10 pizzas</MenuItensNumber>
       </MenuHeader>
-      <ProductCard
-        data={{
-          id: "1",
-          photo_url: "https://picsum.photos/200",
-          name: "Pizza de Mussarela",
-          description: "Pizza mussarela com molho de tomate e mussarela",
-        }}
+
+      <PizzasList
+        data={pizzas}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <ProductCard data={item} />}
       />
     </Container>
   );
