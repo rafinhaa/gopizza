@@ -3,6 +3,7 @@ import React from "react";
 import { BorderlessButton } from "react-native-gesture-handler";
 
 import Search from "../../components/Search";
+import ProductCard from "../../components/ProductCard";
 
 import happyEmoji from "../../assets/happy.png";
 
@@ -35,6 +36,14 @@ const Home: React.FC = () => {
         <Title>Cardápio</Title>
         <MenuItensNumber>10 pizzas</MenuItensNumber>
       </MenuHeader>
+      <ProductCard
+        data={{
+          id: "1",
+          photo_url: "https://picsum.photos/200",
+          name: "Pizza de Mussarela",
+          description: "Pizza mussarela com molho de tomate e mussarela",
+        }}
+      />
     </Container>
   );
 };
