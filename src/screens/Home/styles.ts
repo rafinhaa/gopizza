@@ -1,9 +1,13 @@
 import styled, { css } from "styled-components/native";
 import { LinearGradient } from "expo-linear-gradient";
-import { getStatusBarHeight } from "react-native-iphone-x-helper";
+import {
+  getBottomSpace,
+  getStatusBarHeight,
+} from "react-native-iphone-x-helper";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FlatList, FlatListProps } from "react-native";
 import { ProductProps } from "../../components/ProductCard";
+import Button from "../../components/Button";
 
 export const Container = styled.View`
   flex: 1;
@@ -84,3 +88,8 @@ export const PizzasList = styled(
     marginHorizontal: 24,
   },
 })``;
+
+export const NewProductButton = styled(Button)`
+  margin: 0 24px;
+  margin-bottom: ${getBottomSpace() + 12}px;
+`;

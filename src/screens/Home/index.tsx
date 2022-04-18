@@ -20,6 +20,7 @@ import {
   MenuItensNumber,
   Title,
   PizzasList,
+  NewProductButton,
 } from "./styles";
 
 const Home: React.FC = () => {
@@ -61,6 +62,10 @@ const Home: React.FC = () => {
     navigation.navigate("Product", { id });
   };
 
+  const handleAddProduct = () => {
+    navigation.navigate("Product", {});
+  };
+
   useEffect(() => {
     fetchPizzas("");
   }, []);
@@ -93,6 +98,11 @@ const Home: React.FC = () => {
         renderItem={({ item }) => (
           <ProductCard data={item} onPress={() => handleOpenProduct(item.id)} />
         )}
+      />
+      <NewProductButton
+        title="Cadastrar Pizza"
+        type="secondary"
+        onPress={handleAddProduct}
       />
     </Container>
   );
