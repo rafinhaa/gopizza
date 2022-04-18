@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Platform, TouchableOpacity, ScrollView, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { ImageInfo } from "expo-image-picker/build/ImagePicker.types";
@@ -6,6 +6,7 @@ import firestore from "@react-native-firebase/firestore";
 import storage from "@react-native-firebase/storage";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../../routes/user.stack.routes";
+import { ProductProps } from "../../components/ProductCard";
 
 import ButtonBack from "../../components/ButtonBack";
 import Photo from "../../components/Photo";
@@ -28,10 +29,19 @@ import {
 } from "./styles";
 
 type ScreenParams = RouteProp<RootStackParamList, "Product">;
+type PizzaResponse = ProductProps & {
+  photo_path: string;
+  prices_sizes: {
+    priceP: string;
+    priceM: string;
+    priceG: string;
+  };
+};
 
 const Product: React.FC = () => {
   const behavior = Platform.OS === "ios" ? "padding" : undefined;
   const [image, setImage] = useState("");
+  const [photoPath, setPhotoPath] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [priceP, setPriceP] = useState("");
@@ -92,6 +102,32 @@ const Product: React.FC = () => {
       .catch(() => Alert.alert("Erro ao cadastrar pizza!"))
       .finally(() => setIsLoading(false));
   };
+
+  useEffect(() => {
+    if (id) {
+      firestore()
+        .collection("pizzas")
+        .doc(id)
+        .get()
+        .then((response) => {
+          const {
+            name,
+            description,
+            photoURL,
+            photo_path,
+            prices_sizes: { priceP, priceM, priceG },
+          } = response.data() as PizzaResponse;
+          setName(name);
+          setDescription(description);
+          setImage(photoURL);
+          setPriceP(priceP);
+          setPriceM(priceM);
+          setPriceG(priceG);
+          setPhotoPath(photo_path);
+        });
+    }
+  }),
+    [id];
 
   return (
     <Container behavior={behavior}>
