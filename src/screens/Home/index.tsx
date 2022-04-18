@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { BorderlessButton } from "react-native-gesture-handler";
 import firestore from "@react-native-firebase/firestore";
+import { useNavigation } from "@react-navigation/native";
 
 import Search from "../../components/Search";
 import ProductCard, { ProductProps } from "../../components/ProductCard";
@@ -24,6 +25,7 @@ import {
 const Home: React.FC = () => {
   const [pizzas, setPizzas] = useState<ProductProps[]>([]);
   const [search, setSearch] = useState("");
+  const navigation = useNavigation();
 
   const fetchPizzas = (value: string) => {
     const formattedValue = value.toLowerCase().trim();
@@ -55,6 +57,10 @@ const Home: React.FC = () => {
     fetchPizzas("");
   };
 
+  const handleOpenProduct = (id: string) => {
+    navigation.navigate("Product", { id });
+  };
+
   useEffect(() => {
     fetchPizzas("");
   }, []);
@@ -84,7 +90,9 @@ const Home: React.FC = () => {
       <PizzasList
         data={pizzas}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ProductCard data={item} />}
+        renderItem={({ item }) => (
+          <ProductCard data={item} onPress={() => handleOpenProduct(item.id)} />
+        )}
       />
     </Container>
   );

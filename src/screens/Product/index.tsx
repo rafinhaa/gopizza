@@ -4,11 +4,14 @@ import * as ImagePicker from "expo-image-picker";
 import { ImageInfo } from "expo-image-picker/build/ImagePicker.types";
 import firestore from "@react-native-firebase/firestore";
 import storage from "@react-native-firebase/storage";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { RootStackParamList } from "../../routes/user.stack.routes";
 
 import ButtonBack from "../../components/ButtonBack";
 import Photo from "../../components/Photo";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import InputPrice from "../../components/InputPrice";
 
 import {
   Container,
@@ -23,7 +26,8 @@ import {
   MaxCharacters,
   Form,
 } from "./styles";
-import InputPrice from "../../components/InputPrice";
+
+type ScreenParams = RouteProp<RootStackParamList, "Product">;
 
 const Product: React.FC = () => {
   const behavior = Platform.OS === "ios" ? "padding" : undefined;
@@ -34,6 +38,9 @@ const Product: React.FC = () => {
   const [priceM, setPriceM] = useState("");
   const [priceG, setPriceG] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const {
+    params: { id },
+  } = useRoute<ScreenParams>();
 
   async function handlePickerImage() {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
