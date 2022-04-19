@@ -36,7 +36,7 @@ import {
 
 type ScreenParams = RouteProp<RootStackParamList, "Product">;
 type PizzaResponse = ProductProps & {
-  photo_path: string;
+  photoPath: string;
   prices_sizes: {
     priceP: string;
     priceM: string;
@@ -114,6 +114,19 @@ const Product: React.FC = () => {
     navigation.goBack();
   };
 
+  const handleDeleteProduct = () => {
+    firestore()
+      .collection("pizzas")
+      .doc(id)
+      .delete()
+      .then(() => {
+        storage()
+          .ref(photoPath)
+          .delete()
+          .then(() => navigation.navigate("Home"));
+      });
+  };
+
   useEffect(() => {
     if (id) {
       firestore()
@@ -125,7 +138,7 @@ const Product: React.FC = () => {
             name,
             description,
             photoURL,
-            photo_path,
+            photoPath,
             prices_sizes: { priceP, priceM, priceG },
           } = response.data() as PizzaResponse;
           setName(name);
@@ -134,11 +147,10 @@ const Product: React.FC = () => {
           setPriceP(priceP);
           setPriceM(priceM);
           setPriceG(priceG);
-          setPhotoPath(photo_path);
+          setPhotoPath(photoPath);
         });
     }
-  }),
-    [id];
+  }, [id]);
 
   return (
     <Container behavior={behavior}>
@@ -147,7 +159,7 @@ const Product: React.FC = () => {
           <ButtonBack onPress={handleGoBack} />
           <Title>Cadastrar</Title>
           {id ? (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleDeleteProduct}>
               <DeleteLabel>Deletar</DeleteLabel>
             </TouchableOpacity>
           ) : (

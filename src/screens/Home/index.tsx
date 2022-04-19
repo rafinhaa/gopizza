@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useCallback } from "react";
 
 import { BorderlessButton } from "react-native-gesture-handler";
 import firestore from "@react-native-firebase/firestore";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import Search from "../../components/Search";
 import ProductCard, { ProductProps } from "../../components/ProductCard";
@@ -44,7 +44,6 @@ const Home: React.FC = () => {
           };
         }) as ProductProps[];
         setPizzas(data);
-        console.log(data);
       })
       .catch((error) => console.log(error));
   };
@@ -66,9 +65,11 @@ const Home: React.FC = () => {
     navigation.navigate("Product", {});
   };
 
-  useEffect(() => {
-    fetchPizzas("");
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchPizzas("");
+    }, [])
+  );
 
   return (
     <Container>
