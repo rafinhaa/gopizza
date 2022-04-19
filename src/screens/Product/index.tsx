@@ -105,9 +105,10 @@ const Product: React.FC = () => {
         photoURL,
         photoPath: reference.fullPath,
       })
-      .then(() => Alert.alert("Pizza cadastrada com sucesso!"))
+      .then(() => navigation.navigate("Home"))
       .catch(() => Alert.alert("Erro ao cadastrar pizza!"))
       .finally(() => setIsLoading(false));
+    return () => new AbortController().abort();
   };
 
   const handleGoBack = () => {

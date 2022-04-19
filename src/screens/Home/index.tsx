@@ -27,6 +27,8 @@ const Home: React.FC = () => {
   const [pizzas, setPizzas] = useState<ProductProps[]>([]);
   const [search, setSearch] = useState("");
   const navigation = useNavigation();
+  const pizzasLength =
+    pizzas.length > 1 ? `${pizzas.length} pizzas` : `${pizzas.length} pizza`;
 
   const fetchPizzas = (value: string) => {
     const formattedValue = value.toLowerCase().trim();
@@ -90,7 +92,7 @@ const Home: React.FC = () => {
       />
       <MenuHeader>
         <Title>Cardápio</Title>
-        <MenuItensNumber>10 pizzas</MenuItensNumber>
+        <MenuItensNumber>{pizzasLength}</MenuItensNumber>
       </MenuHeader>
 
       <PizzasList
