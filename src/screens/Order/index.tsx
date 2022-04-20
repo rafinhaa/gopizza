@@ -1,7 +1,7 @@
 import React from "react";
 import { Platform } from "react-native";
 
-import { Container, Header } from "./styles";
+import { Container, Header, Photo } from "./styles";
 
 import ButtonBack from "../../components/ButtonBack";
 
@@ -13,6 +13,7 @@ const Order: React.FC = () => {
       <Header>
         <ButtonBack style={{ marginBottom: 108 }} />
       </Header>
+      <Photo source={{ uri: "https://picsum.photos/240" }} />
     </Container>
   );
 };
