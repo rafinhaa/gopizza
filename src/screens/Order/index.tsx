@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Platform } from "react-native";
+import { PIZZA_TYPES } from "../../utils/pizzaTypes";
 
 import { Container, Header, Photo, Sizes } from "./styles";
 
@@ -8,6 +9,7 @@ import RadioButton from "../../components/RadioButton";
 
 const Order: React.FC = () => {
   const behavior = Platform.OS === "ios" ? "padding" : undefined;
+  const [size, setSize] = useState("");
 
   return (
     <Container behavior={behavior}>
@@ -16,7 +18,14 @@ const Order: React.FC = () => {
       </Header>
       <Photo source={{ uri: "https://picsum.photos/240" }} />
       <Sizes>
-        <RadioButton title="Pequeno" selected />
+        {PIZZA_TYPES.map(({ id, name }) => (
+          <RadioButton
+            key={id}
+            title={name}
+            selected={size === id}
+            onPress={() => setSize(id)}
+          />
+        ))}
       </Sizes>
     </Container>
   );
