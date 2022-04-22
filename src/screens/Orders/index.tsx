@@ -1,9 +1,15 @@
 import React from "react";
 
-import { Container } from "./styles";
+import { Container, Header, Title } from "./styles";
 
 const Order: React.FC = () => {
-  return <Container></Container>;
+  return (
+    <Container>
+      <Header>
+        <Title>Pedidos Feitos</Title>
+      </Header>
+    </Container>
+  );
 };
 
 export default Order;
