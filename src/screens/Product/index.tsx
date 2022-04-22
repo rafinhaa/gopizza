@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Platform,
-  TouchableOpacity,
-  ScrollView,
-  Alert,
-  View,
-} from "react-native";
+import { TouchableOpacity, Alert, View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { ImageInfo } from "expo-image-picker/build/ImagePicker.types";
 import firestore from "@react-native-firebase/firestore";
@@ -19,9 +13,9 @@ import Photo from "../../components/Photo";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import InputPrice from "../../components/InputPrice";
+import Container from "../../components/Container";
 
 import {
-  Container,
   Header,
   Title,
   DeleteLabel,
@@ -45,7 +39,6 @@ type PizzaResponse = ProductProps & {
 };
 
 const Product: React.FC = () => {
-  const behavior = Platform.OS === "ios" ? "padding" : undefined;
   const [image, setImage] = useState("");
   const [photoPath, setPhotoPath] = useState("");
   const [name, setName] = useState("");
@@ -154,62 +147,60 @@ const Product: React.FC = () => {
   }, [id]);
 
   return (
-    <Container behavior={behavior}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Header>
-          <ButtonBack onPress={handleGoBack} />
-          <Title>Cadastrar</Title>
-          {id ? (
-            <TouchableOpacity onPress={handleDeleteProduct}>
-              <DeleteLabel>Deletar</DeleteLabel>
-            </TouchableOpacity>
-          ) : (
-            <View style={{ width: 20 }} />
-          )}
-        </Header>
-        <Upload>
-          <Photo uri={image} />
-          {!id && (
-            <PickImageButton
-              title="Carregar"
-              type="secondary"
-              onPress={handlePickerImage}
-            />
-          )}
-        </Upload>
-        <Form>
-          <InputGroup>
-            <Label>Nome</Label>
-            <Input onChangeText={setName} value={name} />
-          </InputGroup>
-          <InputGroup>
-            <InputGroupHeader>
-              <Label>Descrição</Label>
-              <MaxCharacters>0 de 60 caracteres</MaxCharacters>
-            </InputGroupHeader>
-            <Input
-              multiline
-              maxLength={60}
-              style={{ height: 80 }}
-              onChangeText={setDescription}
-              value={description}
-            />
-          </InputGroup>
-          <InputGroup>
-            <Label>Tamanhos e preços</Label>
-            <InputPrice size="P" onChangeText={setPriceP} value={priceP} />
-            <InputPrice size="M" onChangeText={setPriceM} value={priceM} />
-            <InputPrice size="G" onChangeText={setPriceG} value={priceG} />
-          </InputGroup>
-          {!id && (
-            <Button
-              title="Cadastrar Pizza"
-              isLoading={isLoading}
-              onPress={handleAdd}
-            />
-          )}
-        </Form>
-      </ScrollView>
+    <Container>
+      <Header>
+        <ButtonBack onPress={handleGoBack} />
+        <Title>Cadastrar</Title>
+        {id ? (
+          <TouchableOpacity onPress={handleDeleteProduct}>
+            <DeleteLabel>Deletar</DeleteLabel>
+          </TouchableOpacity>
+        ) : (
+          <View style={{ width: 20 }} />
+        )}
+      </Header>
+      <Upload>
+        <Photo uri={image} />
+        {!id && (
+          <PickImageButton
+            title="Carregar"
+            type="secondary"
+            onPress={handlePickerImage}
+          />
+        )}
+      </Upload>
+      <Form>
+        <InputGroup>
+          <Label>Nome</Label>
+          <Input onChangeText={setName} value={name} />
+        </InputGroup>
+        <InputGroup>
+          <InputGroupHeader>
+            <Label>Descrição</Label>
+            <MaxCharacters>0 de 60 caracteres</MaxCharacters>
+          </InputGroupHeader>
+          <Input
+            multiline
+            maxLength={60}
+            style={{ height: 80 }}
+            onChangeText={setDescription}
+            value={description}
+          />
+        </InputGroup>
+        <InputGroup>
+          <Label>Tamanhos e preços</Label>
+          <InputPrice size="P" onChangeText={setPriceP} value={priceP} />
+          <InputPrice size="M" onChangeText={setPriceM} value={priceM} />
+          <InputPrice size="G" onChangeText={setPriceG} value={priceG} />
+        </InputGroup>
+        {!id && (
+          <Button
+            title="Cadastrar Pizza"
+            isLoading={isLoading}
+            onPress={handleAdd}
+          />
+        )}
+      </Form>
     </Container>
   );
 };

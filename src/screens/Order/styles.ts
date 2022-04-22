@@ -2,10 +2,6 @@ import styled, { css } from "styled-components/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 
-export const Container = styled.KeyboardAvoidingView`
-  flex: 1;
-`;
-
 export const Header = styled(LinearGradient).attrs(({ theme: { COLORS } }) => ({
   colors: COLORS.GRADIENT,
 }))`
@@ -71,10 +67,4 @@ export const Price = styled.Text`
     font-family: ${FONTS.TEXT};
     color: ${COLORS.SECONDARY_900};
   `};
-`;
-
-export const ContentScroll = styled.ScrollView.attrs({
-  showsVerticalScrollIndicator: false,
-})`
-  background-color: ${({ theme: { COLORS } }) => COLORS.BACKGROUND};
 `;
