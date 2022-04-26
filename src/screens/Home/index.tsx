@@ -3,6 +3,7 @@ import React, { useState, useCallback } from "react";
 import { BorderlessButton } from "react-native-gesture-handler";
 import firestore from "@react-native-firebase/firestore";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useAuth } from "../../hooks/auth";
 
 import Search from "../../components/Search";
 import ProductCard, { ProductProps } from "../../components/ProductCard";
@@ -29,6 +30,7 @@ const Home: React.FC = () => {
   const navigation = useNavigation();
   const pizzasLength =
     pizzas.length > 1 ? `${pizzas.length} pizzas` : `${pizzas.length} pizza`;
+  const { user, signOut } = useAuth();
 
   const fetchPizzas = (value: string) => {
     const formattedValue = value.toLowerCase().trim();
@@ -80,7 +82,7 @@ const Home: React.FC = () => {
           <GreetingEmoji source={happyEmoji} />
           <GreetingText>Olá! Admin </GreetingText>
         </Greeting>
-        <BorderlessButton>
+        <BorderlessButton onPress={signOut}>
           <LogOutIcon />
         </BorderlessButton>
       </Header>
@@ -102,11 +104,13 @@ const Home: React.FC = () => {
           <ProductCard data={item} onPress={() => handleOpenProduct(item.id)} />
         )}
       />
-      <NewProductButton
-        title="Cadastrar Pizza"
-        type="secondary"
-        onPress={handleAddProduct}
-      />
+      {user?.isAdmin && (
+        <NewProductButton
+          title="Cadastrar Pizza"
+          type="secondary"
+          onPress={handleAddProduct}
+        />
+      )}
     </Container>
   );
 };
