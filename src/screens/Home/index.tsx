@@ -62,7 +62,8 @@ const Home: React.FC = () => {
   };
 
   const handleOpenProduct = (id: string) => {
-    navigation.navigate("Product", { id });
+    const route = user?.isAdmin ? "Product" : "Order";
+    navigation.navigate(route, { id });
   };
 
   const handleAddProduct = () => {

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { PIZZA_TYPES } from "../../utils/pizzaTypes";
+import { useNavigation } from "@react-navigation/native";
 
 import {
   Header,
@@ -21,11 +22,12 @@ import Container from "../../components/Container";
 
 const Order: React.FC = () => {
   const [size, setSize] = useState("");
+  const navigation = useNavigation();
 
   return (
     <Container backgroundColor="BACKGROUND">
       <Header>
-        <ButtonBack style={{ marginBottom: 108 }} />
+        <ButtonBack style={{ marginBottom: 108 }} onPress={navigation.goBack} />
       </Header>
       <Photo source={{ uri: "https://picsum.photos/240" }} />
       <Form>
