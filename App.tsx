@@ -8,7 +8,6 @@ import theme from "./src/theme";
 import { AuthProvider } from "./src/hooks/auth";
 
 import { Routes } from "./src/routes";
-import Orders from "./src/screens/Orders";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,7 +23,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <StatusBar style="light" translucent backgroundColor="transparent" />
       <AuthProvider>
-        <Orders />
+        <Routes />
       </AuthProvider>
     </ThemeProvider>
   );
