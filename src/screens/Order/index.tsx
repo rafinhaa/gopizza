@@ -4,6 +4,7 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import firestore from "@react-native-firebase/firestore";
 import { RootStackParamList } from "../../routes/user.stack.routes";
 import { Alert } from "react-native";
+import { useAuth } from "../../hooks/auth";
 
 import {
   Header,
@@ -36,11 +37,47 @@ const Order: React.FC = () => {
   const [pizza, setPizza] = useState<PizzaResponse>({} as PizzaResponse);
   const [quantity, setQuantity] = useState(0);
   const [tableNumber, setTableNumber] = useState("");
+  const [sendingOrder, setSendingOrder] = useState(false);
   const navigation = useNavigation();
   const {
     params: { id },
   } = useRoute<ScreenParams>();
   const amount = size ? pizza.prices_sizes[size] * quantity : "0,00";
+  const { user } = useAuth();
+
+  const handleOrder = async () => {
+    if (!tableNumber) {
+      Alert.alert("Preencha o número da mesa");
+      return;
+    }
+    if (!size) {
+      Alert.alert("Escolha um tamanho");
+      return;
+    }
+    if (!quantity) {
+      Alert.alert("Escolha uma quantidade");
+      return;
+    }
+    setSendingOrder(true);
+    try {
+      await firestore().collection("orders").add({
+        quantity,
+        amount,
+        pizza: pizza.name,
+        size,
+        table_number: tableNumber,
+        status: "Preparando",
+        waiter_id: user?.id,
+        image: pizza.photoURL,
+      });
+      Alert.alert("Pedido enviado com sucesso!");
+      navigation.goBack();
+    } catch (error) {
+      Alert.alert("Erro ao enviar pedido!");
+    } finally {
+      setSendingOrder(false);
+    }
+  };
 
   useEffect(() => {
     if (id) {
@@ -49,7 +86,6 @@ const Order: React.FC = () => {
         .doc(id)
         .get()
         .then((response) => {
-          console.log(response.data());
           setPizza(response.data() as PizzaResponse);
         })
         .catch((error) =>
@@ -92,7 +128,11 @@ const Order: React.FC = () => {
           </InputGroup>
         </FormRow>
         <Price>Valor de R$ {amount}</Price>
-        <Button title="Confirmar pedido" />
+        <Button
+          title="Confirmar pedido"
+          onPress={handleOrder}
+          isLoading={sendingOrder}
+        />
       </Form>
     </Container>
   );
