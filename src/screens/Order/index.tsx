@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PIZZA_TYPES } from "../../utils/pizzaTypes";
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import firestore from "@react-native-firebase/firestore";
+import { RootStackParamList } from "../../routes/user.stack.routes";
+import { Alert } from "react-native";
 
 import {
   Header,
@@ -19,19 +22,44 @@ import RadioButton from "../../components/RadioButton";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Container from "../../components/Container";
+import { ProductProps } from "../../components/ProductCard";
+
+type ScreenParams = RouteProp<RootStackParamList, "Order">;
+type PizzaResponse = ProductProps & {
+  prices_sizes: {
+    [key: string]: number;
+  };
+};
 
 const Order: React.FC = () => {
   const [size, setSize] = useState("");
+  const [pizza, setPizza] = useState<PizzaResponse>({} as PizzaResponse);
   const navigation = useNavigation();
+  const {
+    params: { id },
+  } = useRoute<ScreenParams>();
+
+  useEffect(() => {
+    if (id) {
+      firestore()
+        .collection("pizzas")
+        .doc(id)
+        .get()
+        .then((response) => setPizza(response.data() as PizzaResponse))
+        .catch((error) =>
+          Alert.alert("Erro ao carregar o produto", error.message)
+        );
+    }
+  }, [id]);
 
   return (
     <Container backgroundColor="BACKGROUND">
       <Header>
         <ButtonBack style={{ marginBottom: 108 }} onPress={navigation.goBack} />
       </Header>
-      <Photo source={{ uri: "https://picsum.photos/240" }} />
+      <Photo source={{ uri: pizza.photoURL }} />
       <Form>
-        <Title>Nome da pizza</Title>
+        <Title>{pizza.name}</Title>
         <Label>Selecione o tamanho</Label>
         <Sizes>
           {PIZZA_TYPES.map(({ id, name }) => (
