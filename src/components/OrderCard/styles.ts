@@ -15,8 +15,8 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
   align-items: center;
   padding: 24px;
   ${({ theme: { COLORS }, index }) => css`
-    border-left-width: ${index % 2 > 0 ? 0 : 1}px;
-    border-left-color: ${COLORS.SHAPE};
+    border-right-width: ${index % 2 > 0 ? 0 : 1}px;
+    border-right-color: ${COLORS.SHAPE};
   `}
 `;
 
