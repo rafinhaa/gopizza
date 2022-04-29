@@ -81,7 +81,7 @@ const Home: React.FC = () => {
       <Header>
         <Greeting>
           <GreetingEmoji source={happyEmoji} />
-          <GreetingText>Olá! Admin </GreetingText>
+          <GreetingText>Olá! {user.name} </GreetingText>
         </Greeting>
         <BorderlessButton onPress={signOut}>
           <LogOutIcon />
