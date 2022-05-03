@@ -5,6 +5,7 @@ import {
   getStatusBarHeight,
 } from "react-native-iphone-x-helper";
 import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FlatList, FlatListProps } from "react-native";
 import { ProductProps } from "../../components/ProductCard";
 import Button from "../../components/Button";
@@ -50,6 +51,22 @@ export const LogOutIcon = styled(MaterialIcons).attrs(
     color: COLORS.TITLE,
   })
 )``;
+
+export const StoveIcon = styled(MaterialCommunityIcons).attrs(
+  ({ theme: { COLORS } }) => ({
+    name: "stove",
+    size: 24,
+    color: COLORS.TITLE,
+  })
+)`
+  margin-right: 12px;
+`;
+
+export const IconsWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
 
 export const MenuHeader = styled.View`
   flex-direction: row;

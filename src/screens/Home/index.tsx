@@ -13,6 +13,7 @@ import happyEmoji from "../../assets/happy.png";
 import {
   Container,
   Header,
+  IconsWrapper,
   Greeting,
   GreetingEmoji,
   GreetingText,
@@ -21,6 +22,7 @@ import {
   MenuItensNumber,
   Title,
   PizzasList,
+  StoveIcon,
   NewProductButton,
 } from "./styles";
 
@@ -31,6 +33,7 @@ const Home: React.FC = () => {
   const pizzasLength =
     pizzas.length > 1 ? `${pizzas.length} pizzas` : `${pizzas.length} pizza`;
   const { user, signOut } = useAuth();
+  const isAdmin = user?.isAdmin;
 
   const fetchPizzas = (value: string) => {
     const formattedValue = value.toLowerCase().trim();
@@ -62,12 +65,16 @@ const Home: React.FC = () => {
   };
 
   const handleOpenProduct = (id: string) => {
-    const route = user?.isAdmin ? "Product" : "Order";
+    const route = isAdmin ? "Product" : "Order";
     navigation.navigate(route, { id });
   };
 
   const handleAddProduct = () => {
     navigation.navigate("Product", {});
+  };
+
+  const goToChangeOrdersStatus = () => {
+    navigation.navigate("ChangerOrders");
   };
 
   useFocusEffect(
@@ -83,9 +90,16 @@ const Home: React.FC = () => {
           <GreetingEmoji source={happyEmoji} />
           <GreetingText>Olá! {user.name} </GreetingText>
         </Greeting>
-        <BorderlessButton onPress={signOut}>
-          <LogOutIcon />
-        </BorderlessButton>
+        <IconsWrapper>
+          {isAdmin && (
+            <BorderlessButton onPress={goToChangeOrdersStatus}>
+              <StoveIcon />
+            </BorderlessButton>
+          )}
+          <BorderlessButton onPress={signOut}>
+            <LogOutIcon />
+          </BorderlessButton>
+        </IconsWrapper>
       </Header>
       <Search
         onChangeText={setSearch}

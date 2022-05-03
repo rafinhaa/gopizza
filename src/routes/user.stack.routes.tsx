@@ -5,6 +5,7 @@ import { useAuth } from "../hooks/auth";
 import Home from "../screens/Home";
 import Product from "../screens/Product";
 import Order from "../screens/Order";
+import ChangeOrders from "../screens/ChangeOrders";
 
 import { UserTabRoutes } from "./user.tab.routes";
 
@@ -14,6 +15,7 @@ export type RootStackParamList = {
   Order: { id: string };
   Orders: undefined;
   UserTabRoutes: undefined;
+  ChangerOrders: undefined;
 };
 
 const { Navigator, Screen, Group } =
@@ -32,6 +34,7 @@ export const UserStackRoutes = () => {
         <Group>
           <Screen name="Home" component={Home} />
           <Screen name="Product" component={Product} />
+          <Screen name="ChangerOrders" component={ChangeOrders} />
         </Group>
       ) : (
         <Group>
