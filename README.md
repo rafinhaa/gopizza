@@ -15,6 +15,10 @@
   </p>
 </h4>
 
+<h1 align="center">
+  <img width="200" style="border-radius: 10px" height="auto" alt="Screenshot" title="Screenshot" src="docs/videos/demo-admin.gif" />
+</h1>
+
 ## 🔖 About
 
 GoPizza é um aplicativo mobile que utiliza a tecnologia do firebase para armazenar os dados.
