@@ -48,6 +48,7 @@ const Product: React.FC = () => {
   const [priceG, setPriceG] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
+  const [descriptionLength, setDescriptionLength] = useState(0);
   const {
     params: { id },
   } = useRoute<ScreenParams>();
@@ -121,6 +122,11 @@ const Product: React.FC = () => {
       });
   };
 
+  const descriptionLengthHandler = (text: string) => {
+    setDescriptionLength(text.length);
+    setDescription(text);
+  };
+
   useEffect(() => {
     if (id) {
       firestore()
@@ -177,13 +183,13 @@ const Product: React.FC = () => {
         <InputGroup>
           <InputGroupHeader>
             <Label>Descrição</Label>
-            <MaxCharacters>0 de 60 caracteres</MaxCharacters>
+            <MaxCharacters>{descriptionLength} de 60 caracteres</MaxCharacters>
           </InputGroupHeader>
           <Input
             multiline
             maxLength={60}
             style={{ height: 80 }}
-            onChangeText={setDescription}
+            onChangeText={descriptionLengthHandler}
             value={description}
           />
         </InputGroup>
