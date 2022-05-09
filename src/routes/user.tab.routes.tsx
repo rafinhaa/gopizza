@@ -7,16 +7,19 @@ import firestore from "@react-native-firebase/firestore";
 import Home from "../screens/Home";
 import Orders from "../screens/Orders";
 import BottomMenu from "../components/BottomMenu";
+import { useAuth } from "../hooks/auth";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
 export const UserTabRoutes = () => {
   const { COLORS } = useTheme();
   const [notifications, setNotifications] = useState("0");
+  const { user } = useAuth();
 
   useEffect(() => {
     const subscriber = firestore()
       .collection("orders")
+      .where("waiter_id", "==", user.id)
       .where("status", "==", "Pronto")
       .onSnapshot((querySnapshot) => {
         setNotifications(querySnapshot.docs.length.toString());
