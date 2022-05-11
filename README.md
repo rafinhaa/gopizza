@@ -17,6 +17,7 @@
 
 <h1 align="center">
   <img width="200" style="border-radius: 10px" height="auto" alt="Screenshot" title="Screenshot" src="docs/videos/demo-admin.gif" />
+  <img width="200" style="border-radius: 10px" height="auto" alt="Screenshot" title="Screenshot" src="docs/videos/demo-garcom.gif" />
 </h1>
 
 ## 🔖 About
